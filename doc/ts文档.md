@@ -124,6 +124,78 @@ let strLength: number = (<string>someValue).length;
 let strLength1: number = (someValue as string).length;
 ```
 ## 接口
+接口的作用就是为这些类型命名和为你的代码或者第三方代码定义契约。
+定义接口
+```ts
+// 定义一个接口
+interface LabelledValue {
+  label: string
+}
+// 接口用来定义一些具有特定结构的数据类型，一般是用户自己定义的
+// 比如要求 必须是某种数据类型，并具有一定格式
+function printLabel (labelledObj:LabelledValue) {
+  console.log(labelledObj.label)
+}
+```
+类型检查器不会去检查属性的顺序，只要相应的属性存在并且类型也是对的就可以。
+### 可选属性
+带有可选属性的接口和普通的接口定义差不多，只需要在可选属性名字的后面加一个?符号
+```ts
+interface SquareConfig {
+  color?: string,
+  width: number
+}
+```
+可选属性的好处就是对可能存在的属性进行预定义，并且可以捕获引用了不存在的属性时的错误。
+### 只读属性
+一些对象属性只能在对象刚刚创建时修改其值，可以在属性名前用readonly来指定其只读属性。
+```ts
+interface Point {
+  readonly x: number
+  readonly y: number
+}
+let p1: Point = { x: 10, y: 20};
+// 赋值后，x和y就不能再修改了。
+```
+### 额外类型检查
+对象字面量会被特殊对待而且经过额外属性检查，当它们赋值给变量或者作为参数传递时，如果一个对象字面量存在任何“目标类型”不包含的属性时，你会得到一个错误。
+```ts
+interface SquareConfig {
+    color?: string;
+    width?: number;
+}
+// error: 'colour' not expected in type 'SquareConfig'
+let mySquare = createSquare({ colour: "red", width: 100 });
+// 意思是  函数参数的目标类型是 SquareConfig
+// 当你传递一个对象作为参数，但是包含了目标类型中没有的属性，就会报错
+// 绕开这份检查的最简单的方式就是使用 类型断言
+let mySquare = createSquare({width: 100, opacity: 0.5 } as SquareConfig);
+// 然而最佳的方式是添加一个字符串索引签名，前提是你能确定这个对象可能具有某些为特殊用途用的二外属性。
+// 可以这样定义接口
+interface SquareConfig1 {
+  color?: string,
+  width?:number,
+  [propName: string]: any
+  // 这里要表示的是SquareConfig 可以有任意数量的属性，并且只要他们不是color和width，那么就无所谓它们的类型是什么
+}
+// 此外还可以将这个对象赋值给另外一个对象，因为squareoOtions不会经过额外属性检查，所以编辑器不会报错
+// error: 'colour' not expected in type 'SquareConfig'
+let mySquare = createSquare({ colour: "red", width: 100 });
+```
+接口也可以用来描述寒素类型
+需要给接口定义一个调用签名，它就像是一个只有参数列表和返回值类型的函数定义。参数列表的每个参数都需要名字和类型
+```ts
+interface SearchFunc {
+  (source: string, subString: string): boolean;
+}
+// 使用接口: 创建一个函数类型的变量，并将一个同类型的函数赋值给这个变量。
+let mySearch: SearchFunc;
+mySearch = funciton(src:string, sub: string): boolean {
+  let result = src.search(sub);
+  return result > -1;
+}
+```
+函数的参数会逐个进行检查，要求对应位置上的参数类型是兼容的。如果不想直指定类型，TS的类型系统会推断出参数类型
 ## 类
 ## 函数
 ## 泛型
@@ -142,4 +214,4 @@ let strLength1: number = (someValue as string).length;
 ## 装饰器
 ## Mixins
 ## 三斜线指令
-## 文件类型检查
+## 文件类型检查 
