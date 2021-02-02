@@ -106,9 +106,22 @@ function error(message: string): never {
 }
 function infiniteLoop(): never {
   while(true) {
-    
+
   }
 }
+```
+11. object
+object表示非原始类型，也就是除了 number,string,boolean,symbol,null,undefined之外的类型。
+使用object类型，就可以更好的表示像Object.create这样的API
+
+
+## 类型断言
+通过类型断言这样的方式可以告诉编辑器，变量对应的数据类型
+类型断言的方式1：通过尖括号语法
+```ts
+let someValue: any = "this is a string"
+let strLength: number = (<string>someValue).length;
+let strLength1: number = (someValue as string).length;
 ```
 ## 接口
 ## 类
