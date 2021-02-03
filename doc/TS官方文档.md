@@ -196,6 +196,132 @@ mySearch = funciton(src:string, sub: string): boolean {
 }
 ```
 函数的参数会逐个进行检查，要求对应位置上的参数类型是兼容的。如果不想直指定类型，TS的类型系统会推断出参数类型
+### 可索引的类型
+可索引类型具有一个索引签名，还有相应的索引返回值类型
+```ts
+interface StringArray {
+  [index: number]: string;
+  // 定义了StringArray接口，具有索引签名，这个索引签名表示了当用number去索引StringArray时会得到string类型的返回值
+}
+let myArray: StringArray;
+myArray = ['Bob','Fred'];
+let myStr: string = myArray[0];
+```
+TS支持两种索引签名，字符串和数字。 可以同时使用两种类型的索引，但是数字索引的返回值必须是字符串索引返回值类型的子类型。
+因为使用number来索引时，JS会将它转换城string，再去索引对象。
+
+可以给索引签名设置为只读，这样就防止了给索引赋值。
+```ts
+interface ReadonlyStringArray {
+    readonly [index: number]: string;
+}
+let myArray: ReadonlyStringArray = ["Alice", "Bob"];
+myArray[2] = "Mallory"; // error!
+```
+### 类类型
+与C#或者Java里接口的基本作用一样，TS也能够用它来明确的强制一个类去符合某种契约
+```ts
+interface clockInterface {
+  currentTime: Date;
+}
+class Clock implements ClockInterface {
+  currentTime: Date;
+  constructor(h: number, m: number) {}
+}
+```
+可以在接口中描述一个方法，在类里实现它
+```ts
+interface clockInterface {
+  currentTime: Date;
+  setTime(d:Date);
+}
+class Clock implements ClockInterface {
+  currentTime: Date;
+  setTime(d: Date) {
+    this.currentTime = d;
+  }
+  constructor(h: number, m: number){}
+}
+```
+接口描述了类的公共部分
+### 类静态部分和实例部分的区别
+```ts
+// 接口1  构造函数
+interface ClockConstructor {
+  new(hour: number, minute: number):ClockInterface;
+}
+// 定义 类类型的一个接口，里面有个tick方法
+interface ClockInterface {
+  tick()// 在类中声明方法
+}
+// 批量创建时钟接口 传入对应的构造函数以及相应参数，最终返回一个时钟接口
+function createClock(ctor: ClockConstructor, hour: number, minute: number): ClockInterface {
+  return ctor(hour, minute);
+}
+// 定义类 通过实现一个接口的方式
+class DigitalClock implements ClockInterface {
+    constructor(h: number, m: number);
+    tick() {
+      console.log('beep beep')
+    }
+}
+class AnalogClock implements ClockInterface {
+  constructor(h: number, m: number) {}
+  tick() {
+    console.log('tick tick');
+  }
+}
+let digital = createClock(DigitalClock, 12, 17);
+let analog = createClock(Analogclock, 7, 32);
+```
+### 接口继承
+接口可以继承，可以从一个接口里复制成员到另一个接口里，可以更灵活地将接口分割到可重用的模块里
+```ts
+interface Shape {
+  color: string
+}
+interface Square extends Shape {
+  sideLength: number;
+}
+let square = <Square>{};
+square.color = "blue";
+square.sideLength = 10;
+```
+一个接口可以继承多个接口，创建出多个接口的合成接口
+```ts
+interface Shape {
+  color: string
+}
+interface PenStroke {
+  penWidth: number;
+}
+
+interface Square extends Shape, PenStroke {
+  sideLength: number;
+}
+let square = <Square>{};
+square.color = "blue";
+square.sideLength = 10;
+square.penWidth = 5;
+```
+### 混合类型
+接口能描述JS中丰富的类型
+一个对象可以同时作为函数和对象使用，并且带有额外的属性
+```ts
+interface Counter {
+  (start: number): string;
+  interval: number;
+  reset(): void;
+}
+function getCounter(): Counter {
+  let counter = <Counter>function (start: number) {};
+  counter.interval = 123;
+  counter.reset = function () {};
+  return counter;
+}
+let c = getCounter();
+
+```
 ## 类
 ## 函数
 ## 泛型
