@@ -89,4 +89,61 @@ class Person {
     console.log('hello' + str);
   }
 }
-// 使用类
+// 类的继承： 允许继承来扩展现有的类
+// 类从基类中继承了属性和方法。
+// Dog类继承于Animal类。 Dog类是一个派生类，派生于Animal基类，通过extends关键字。
+// 派生类一般被称作子类，基类通常被称作超类
+
+class AnimalClass {
+  name: string;
+  constructor(theName: string) {
+    this.name = theName;
+  }
+}
+class Snake extends AnimalClass {
+  // 子类中还包含自己的构造函数，需要先调用super
+  // 派生类中包含了一个构造函数，必须调用 super()，它会执行基类的构造函数。
+  // 在构造函数中返回this的属性之前，一定要调用super()
+  name: string;
+  constructor(name: string) {
+    super(name);
+  }
+}
+let sam = new Snake("Sammy");
+
+// 公共，私有，受保护的修饰符
+//  在ts中 默认为public
+// 可以明确的将一个成员标记为public
+
+// 私有 private，当一个成员被标记为private时，标识这个成员不能在声明它的类的外部访问
+class AnimalPrivateClass {
+  private name: string;
+  constructor(theName: string){ this.name = theName};
+}
+// 不能通过 new AnimalPrivateClass('test').name 这样的方式来访问name属性
+
+// protected 与private的行为类似，但是有一点不同，protected成员在派生类中仍然可以访问
+class PersonProtected {
+  protected name: string;
+  constructor(name: string) {
+    this.name = name;
+  }
+}
+class Employee extends PersonProtected {
+  private department: string;
+  constructor(name: string, department: string) {
+    super(name);
+    this.department = department;
+  }
+  public getElevatorPitch() {
+    return `Hello, my name is ${this.name} and I work in ${this.department}.`;
+  }
+}
+let howard = new Employee('Howard', 'Sales');
+console.log(howard.getElevatorPitch());
+// 不能通过howard.name 访问到name
+
+// 不能在PersonProtected类外访问到name，但是可以通过Employee类的实例方法访问
+
+// readonly修饰符
+// 可以使用readonly关键字设置为只读的，只读属性必须在声明时或者构造函数中被初始化
