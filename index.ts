@@ -46,3 +46,47 @@ class Blueird implements Bird {
   }
 }
 const blueBird = new Blueird()
+// 一个类可以实现多个接口
+interface AnimalInterface {
+  walk(); // 该方法中没有任何的实现
+}
+class Animal implements Bird,AnimalInterface {
+  fly () {
+    console.log('i can fly');
+  }
+  walk () {
+    console.log('i can walk')
+  }
+}
+const person1 = new Animal()
+// 接口也可以继承其他的多个接口
+
+interface BirdAndAnimal extends Bird,AnimalInterface {
+
+}
+
+// 接口之间可以继承，类可以实现接口
+
+
+
+/**
+ * 类
+ */
+// 类可以理解为模板，通过模板可以实例化对象
+// 面向对象的编程思想
+class Person {
+  // 定义属性
+  name: string;
+  age:number;
+  gender: string;
+  // 定义构造函数，为了讲来实例化对象的时候，可以直接堆属性的值进行初始化
+  constructor(name: string, age: number, gender) {
+    this.age = age;
+    this.name = name;
+    this.gender = gender;
+  }
+  sayHi(str: string) {
+    console.log('hello' + str);
+  }
+}
+// 使用类
