@@ -11,12 +11,12 @@ interface Person {
   age: number;
   sex?: string; // 可选
 }
-const person: Person = {
-  id: 123,
-  name: 'dell',
-  age: 20,
-  sex: 'male'
-}
+// const person: Person = {
+//   id: 123,
+//   name: 'dell',
+//   age: 20,
+//   sex: 'male'
+// }
 
 // 3. 函数类型
 // 为了使用接口表示函数类型，需要给接口定义一个调用签名
