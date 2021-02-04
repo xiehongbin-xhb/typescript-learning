@@ -147,3 +147,36 @@ console.log(howard.getElevatorPitch());
 
 // readonly修饰符
 // 可以使用readonly关键字设置为只读的，只读属性必须在声明时或者构造函数中被初始化
+
+
+// 函数
+// 创建函数
+// 给每个参数添加类型 以及为函数本身添加返回值类型
+// 函数返回值类型是函数类型的必要部分，如果函数没有返回值，也必须指定返回值类型为void
+// TS中的每个函数参数都是必须的。可以在参数名使用? 实现可选参数的功能
+function buildName (firstName: string, lastName?: string) {
+  if(lastName) {
+    return firstName + '' + lastName;
+  }else {
+    return firstName;
+  }
+} 
+// 可选参数必须跟在必选参数之后
+
+// 默认参数
+function buildName1 (firstName: string, lastName = 'Dele') {
+  if(lastName) {
+    return firstName + '' + lastName;
+  }else {
+    return firstName;
+  }
+}
+// 带默认值的参数 不需要放在必须参数的后面
+
+// 剩余参数
+// 在TS中，可以将所有参数收集到一个变量里
+function buildName2 (firstName: string,...restOfName: string[]): string {
+  return firstName + "" + restOfName.join('-')
+}
+// 剩余参数会被当做 个数不限 的可选参数，可以一个都没有，也可以有任意个
+// 编译器创建参数数组，名字是在省略号后面给定的名字。
