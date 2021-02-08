@@ -166,3 +166,21 @@ class Dog {
 //   [x: number]: Animal
 //   [x: string]: Dog
 // }
+
+/**
+ * 类类型
+ */
+// 一个类包含两种类型，静态类型和实例类型
+// 静态类型主要是构造函数
+// 这里定义的类型是实例类型
+interface ClockInterface {
+  currentTime: Date;
+}
+class Clock implements ClockInterface {
+  currentTime: Date;
+  constructor(h: number, m: number) {
+  }
+}
+interface ClockConstructor {
+  new(hour:number,minute: number) // 构造器签名
+}
