@@ -176,11 +176,17 @@ class Dog {
 interface ClockInterface {
   currentTime: Date;
 }
+// 类 可以实现一个接口
+// 类只描述了一个类的公共部分
 class Clock implements ClockInterface {
   currentTime: Date;
   constructor(h: number, m: number) {
   }
 }
+// 构造器接口
 interface ClockConstructor {
   new(hour:number,minute: number) // 构造器签名
 }
+
+// 实例接口/构造器接口
+
