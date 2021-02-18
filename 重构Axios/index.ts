@@ -90,16 +90,16 @@ interface SquareConfig {
   color?: string,
   width?: number
 }
-function createSquare(config: SquareConfig): Square {
-  let newSquare =  { color: 'white', area: 100}
-  if(config.color) {
-    newSquare.color = config.color;
-  }
-  if(config.width) {
-    newSquare.area = config.width * config.width;
-  }
-  return newSquare;
-}
+// function createSquare(config: SquareConfig): Square {
+//   let newSquare =  { color: 'white', area: 100}
+//   if(config.color) {
+//     newSquare.color = config.color;
+//   }
+//   if(config.width) {
+//     newSquare.area = config.width * config.width;
+//   }
+//   return newSquare;
+// }
 /**
  * 只读属性
  */
@@ -126,7 +126,7 @@ interface SquareConfigWidthSign {
   [propsName:string]: any
 }
 // 一种是不传字面量，使用一个变量做为参数，跳过这个类型检查
-let mySquare = createSquare({color: 'black', width: 100})
+// let mySquare = createSquare({color: 'black', width: 100})
 
 
 /**
@@ -183,10 +183,110 @@ class Clock implements ClockInterface {
   constructor(h: number, m: number) {
   }
 }
-// 构造器接口
+// 构造器接口: 类 不能去实现一个构造器接口
 interface ClockConstructor {
   new(hour:number,minute: number) // 构造器签名
 }
 
 // 实例接口/构造器接口
 
+// 类 去实现一个接口， 实际上是去实现类的实例部分，而构造器属于类的静态部分
+
+
+// 接口继承
+interface Shapes {
+  color: string;
+}
+interface PenStroke {
+  penWidth: number;
+}
+// 一个接口页可以继承多个接口，用逗号分隔开
+interface Square extends Shapes, PenStroke {
+  sideLength: number
+}
+let square =  {} as Square;
+square.color = 'blue'
+square.sideLength = 10;
+square.penWidth = 11;
+
+// 混合类型
+interface Counter {
+  (start: number): string;
+  interval: number;
+  reset(): void;
+}
+function getCounter(): Counter {
+  let counter = function(start: number) {
+
+  } as Counter;
+  counter.interval = 1232;
+  counter.reset = function() {
+
+  }
+  return counter;
+}
+const counter1 = getCounter();
+counter1(10);
+counter1.reset();
+
+// 接口继承类
+// 接口继承一个类时，会继承这个类的成员，比如 private，protected属性，但是不包含实现
+// 创建一个接口，继承于包含私有成员或者受保护成员的类时，这个接口只能被 这个类或者这个类的子类 实现
+class Control {
+  private state: any;
+}
+interface SelectableControl  extends Control{
+  select()
+}
+
+class Button extends Control implements SelectableControl {
+  select() {
+    console.log('select')
+  }
+}
+class TextBox extends Control{
+  select() {
+    console.log('select')
+  }
+}
+
+// class ImageC implements SelectableControl{
+//   // 这里缺少state私有属性
+//   select() {
+//     console.log('select')
+//   }
+// }
+
+
+/**
+ * 类：
+ * 实现类
+ * 1. 函数 
+ * 2. 基于原型
+ * 3. 基于class
+ * 
+ * 
+ * 内容：
+ * 0. 基本示例
+ * 1. 继承
+ * 2. 公共，私有，受保护的修饰符
+ * 3. readonly修饰符
+ * 4. 存取器
+ * 5. 静态属性
+ * 6. 抽象类
+ */
+
+ /**
+  * 0. 基本示例
+  */
+ class Greeter {
+   greeting: string;
+   constructor(message: string) {
+     this.greeting = message;
+   }
+   greet() {
+     return 'Hello' + this.greeting;
+   }
+ }
+ let greeter = new Greeter('world');
+ greeter.greet();
