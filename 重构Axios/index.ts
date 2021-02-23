@@ -353,3 +353,7 @@ department.printName();
 // 高级技巧
 // 类是具有实例部分和静态部分的
 // 1. 修改类的静态部分，通过创建一个
+
+
+
+let strArr: Array<string> = []
