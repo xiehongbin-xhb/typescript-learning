@@ -355,5 +355,26 @@ department.printName();
 // 1. 修改类的静态部分，通过创建一个
 
 
+interface personInterface {
 
-let strArr: Array<string> = []
+}
+let person = {
+  age111: 10,
+  gender: 'male'
+}
+
+class testClass {
+  name: string;
+  age: number;
+  constructor(name, age){
+    this.name = name;
+    this.age = age;
+  }
+  sayName() {
+    console.log('my Name is' );
+  }
+  greeter() {
+    let str = 'age';
+    this[`say${str}`]();
+  }
+}
