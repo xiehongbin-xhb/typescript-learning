@@ -268,7 +268,7 @@ class TextBox extends Control{
  * 
  * 内容：
  * 0. 基本示例
- * 1. 继承
+ * 1. 继承 
  * 2. 公共，私有，受保护的修饰符
  * 3. readonly修饰符
  * 4. 存取器
@@ -290,3 +290,66 @@ class TextBox extends Control{
  }
  let greeter = new Greeter('world');
  greeter.greet();
+
+ /* 
+  公共： public
+  私有: private
+  受保护的：protected
+ 1.在比较两个类是否兼容时，是需要考虑是否包含 私有以及受保护的变量，如果有，
+ 则两个成员都必须要有相同的私有或者受保护的变量，并且是在同一个地方声明的
+ 那么这两个类才是兼容的
+
+  private变量以及public变量的区别。
+  都不能在类外部访问
+  可以在子类被访问 
+  在派生类中 private是不可以访问的，protected变量是可以的。
+ */ 
+
+ /**
+  * 存取器
+  * get 
+  * set
+  */
+ /**
+  * 静态属性： 类上的属性，不是示例属性
+  */
+ /**
+  * 抽象类:
+  * 和接口的定义差不多
+  * 抽象方法： 
+  */
+ abstract class Department {
+  name: string;
+  constructor(name: string) {
+    this.name = name;
+  }
+  printName(): void {
+    console.log('DepartmentName'+ this.name);
+  }
+  abstract printMeeting(): void; // 抽象方法 包含函数签名，但是不包含函数具体实现
+ }
+
+ class AccountDepartMent extends Department {
+   constructor(){
+     super('Account ad Auditing');
+   }
+   // 实现抽象方法
+   printMeeting(): void {
+     console.log('the Accounting Department meets each Monday 8 am')
+   };
+   genertateReports(): void {
+     console.log('genertateReports');
+   }
+ }
+ let department: Department;
+//  department = new Department() 抽象类不能被实例化
+// 抽象类的派生类 才可以被实例化
+department = new AccountDepartMent();
+department.printMeeting()
+department.printName();
+// department.genertateReports()  department 已经声明是DepartmentD类型，这个类型里面是没有这个方法
+
+
+// 高级技巧
+// 类是具有实例部分和静态部分的
+// 1. 修改类的静态部分，通过创建一个
