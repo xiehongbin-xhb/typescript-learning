@@ -378,3 +378,35 @@ class testClass {
     this[`say${str}`]();
   }
 }
+
+
+/**
+ * 函数：
+ * 1. 基本示例
+ * 2. 函数类型
+ * 3. 可选参数/默认参数/ 剩余参数
+ * 可选参数 必须放在参数列表最后
+ * 默认参数 不用
+ * 剩余参数
+ * 4. this
+ * 5. 重载
+ */
+function buildName(firstName: string, ...restOfName: string[]):string {
+  return firstName
+}
+/**
+  泛型：
+  1. 使用泛型变量
+  2. 泛型类型
+  3. 泛型类
+  4. 泛型约束
+ */
+// 泛型
+ function idenity<T>(arg: T):T {
+  return arg;
+}
+// let output = idenity<string>('myString');
+let output = idenity('testString');
+
+/** 泛型变量 */
+/** 泛型类型 */
